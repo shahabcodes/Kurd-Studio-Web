@@ -1,0 +1,11 @@
+// Writing styles are in global styles.scss
+
+.reading-content {
+  white-space: pre-line;
+  line-height: 1.9;
+  color: var(--text-secondary);
+
+  p {
+    margin-bottom: var(--space-md);
+  }
+}

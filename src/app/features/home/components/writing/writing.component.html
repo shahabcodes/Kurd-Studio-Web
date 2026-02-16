@@ -1,0 +1,95 @@
+<section id="writing" class="container" aria-labelledby="writing-title">
+  <app-section-header
+    tag="Literature"
+    title="Words &"
+    titleHighlight="Stories"
+    subtitle="Reflections · Poems · Novel in Progress"
+  />
+
+  <div class="tabs reveal reveal-delay-1" role="tablist" aria-label="Filter writing by type">
+    <button
+      class="tab"
+      [class.active]="writingService.selectedType() === 'reflection'"
+      role="tab"
+      [attr.aria-selected]="writingService.selectedType() === 'reflection'"
+      (click)="setTab('reflection')">
+      Reflections
+    </button>
+    <button
+      class="tab"
+      [class.active]="writingService.selectedType() === 'poem'"
+      role="tab"
+      [attr.aria-selected]="writingService.selectedType() === 'poem'"
+      (click)="setTab('poem')">
+      Poems
+    </button>
+    <button
+      class="tab"
+      [class.active]="writingService.selectedType() === 'novel'"
+      role="tab"
+      [attr.aria-selected]="writingService.selectedType() === 'novel'"
+      (click)="setTab('novel')">
+      Novel
+    </button>
+  </div>
+
+  <div class="columns reveal reveal-delay-2">
+    @for (writing of writingService.filteredWritings(); track writing.id) {
+      <article class="paper" [attr.data-kind]="writing.typeName">
+        <div class="kind">
+          {{ writing.typeDisplayName }}
+          @if (writing.datePublished) {
+            · {{ writing.datePublished | date:'MMMM yyyy' }}
+          }
+          @if (writing.novelName) {
+            · {{ writing.novelName }}
+          }
+        </div>
+        <h3>{{ writing.title }}</h3>
+        @if (writing.excerpt) {
+          <p class="literary-text" [class.drop-cap]="writing.typeName === 'reflection'">{{ writing.excerpt }}</p>
+        }
+        @if (writing.subtitle) {
+          <p>{{ writing.subtitle }}</p>
+        }
+        <a class="more" href="#" (click)="expandWriting($event, writing)">
+          @if (writing.typeName === 'reflection') {
+            Read full reflection
+          } @else if (writing.typeName === 'poem') {
+            Read poem
+          } @else {
+            Read excerpt
+          }
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </article>
+    } @empty {
+      @if (writingService.isLoading()) {
+        <p>Loading writings...</p>
+      } @else {
+        <p>No writings found</p>
+      }
+    }
+  </div>
+
+  <!-- Reading Pop -->
+  @if (writingService.expandedWriting(); as expanded) {
+    <div class="reading-pop">
+      <h3>{{ expanded.title }}</h3>
+      <div class="reading-content" [innerHTML]="expanded.fullContent"></div>
+      <button class="dismiss-reading" aria-label="Close" (click)="closeReading()">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+  }
+</section>
+
+<div class="divider">
+  <svg class="divider-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path d="M12 19l-7-7 7-7M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>

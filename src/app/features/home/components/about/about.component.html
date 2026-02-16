@@ -1,0 +1,57 @@
+<section id="about" class="container" aria-labelledby="about-title">
+  <app-section-header
+    tag="About Me"
+    title="Meet"
+    [titleHighlight]="siteService.profile()?.name || 'Sanya'"
+    [subtitle]="siteService.profile()?.tagline || 'Artist · Writer · Dreamer of beautiful things'"
+  />
+
+  <div class="about">
+    <div class="avatar reveal">
+      @if (siteService.profile()?.avatarImageUrl) {
+        <img loading="lazy" [src]="siteService.profile()?.avatarImageUrl" [alt]="'Portrait of ' + siteService.profile()?.name"/>
+      } @else {
+        <img loading="lazy" src="https://picsum.photos/id/1005/900/1200" alt="Portrait of Sanya, the artist"/>
+      }
+    </div>
+    <div class="about-content reveal reveal-delay-1">
+      <h3>Creating with purpose, feeling with intention</h3>
+      @if (siteService.profile()?.bio) {
+        <p>{{ siteService.profile()?.bio }}</p>
+      } @else {
+        <p>Hi, I'm Sanya. I draw because graphite understands what words can't. I paint because colors argue beautifully. I write to translate the hush between both.</p>
+        <p>Commission inquiries, collaboration ideas, or just a hello are always welcome.</p>
+      }
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-num">{{ siteService.profile()?.artworksCount || '50+' }}</div>
+          <div class="stat-label">Artworks</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">{{ siteService.profile()?.poemsCount || '30+' }}</div>
+          <div class="stat-label">Poems</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">{{ siteService.profile()?.yearsExperience || '5' }}</div>
+          <div class="stat-label">Years</div>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <a class="btn primary" href="#contact">Work with me</a>
+        <a class="btn ghost" href="#gallery">View portfolio</a>
+      </div>
+
+      <div class="signature-wrap">
+        <span class="signature">— {{ siteService.profile()?.name || 'Sanya' }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider">
+  <svg class="divider-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path d="M12 19l-7-7 7-7M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>

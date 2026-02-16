@@ -1,0 +1,77 @@
+<section id="gallery" class="container" aria-labelledby="gallery-title">
+  <app-section-header
+    tag="Portfolio"
+    title="Creative"
+    titleHighlight="Gallery"
+    subtitle="Sketches · Paintings · Mixed Media"
+  />
+
+  <div class="tabs reveal reveal-delay-1" role="tablist" aria-label="Filter gallery by category">
+    <button
+      class="tab"
+      [class.active]="artworkService.selectedType() === null"
+      role="tab"
+      [attr.aria-selected]="artworkService.selectedType() === null"
+      (click)="setFilter('all')">
+      All Works
+    </button>
+    @for (type of artworkService.types(); track type.id) {
+      <button
+        class="tab"
+        [class.active]="artworkService.selectedType() === type.typeName"
+        role="tab"
+        [attr.aria-selected]="artworkService.selectedType() === type.typeName"
+        (click)="setFilter(type.typeName)">
+        {{ type.displayName }}s
+      </button>
+    }
+  </div>
+
+  <div class="grid stagger-children" role="list">
+    @for (artwork of artworkService.filteredArtworks(); track artwork.id) {
+      <article
+        class="card"
+        [attr.data-kind]="artwork.typeName"
+        role="listitem"
+        tabindex="0"
+        (click)="openLightbox(artwork.imageUrl, artwork.title)"
+        (keydown.enter)="openLightbox(artwork.imageUrl, artwork.title)"
+        (keydown.space)="openLightbox(artwork.imageUrl, artwork.title)">
+        <img class="thumb" loading="lazy" [src]="artwork.thumbnailUrl" [alt]="artwork.title"/>
+        <div class="meta">
+          <span class="pill">{{ artwork.typeDisplayName }}</span>
+          <span class="title">{{ artwork.title }}</span>
+        </div>
+      </article>
+    } @empty {
+      @if (artworkService.isLoading()) {
+        <p>Loading artworks...</p>
+      } @else {
+        <p>No artworks found</p>
+      }
+    }
+  </div>
+</section>
+
+<div class="divider">
+  <svg class="divider-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path d="M12 19l-7-7 7-7M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
+
+<!-- Lightbox -->
+<div
+  class="lightbox"
+  [class.open]="lightboxOpen()"
+  role="dialog"
+  aria-label="Image preview"
+  [attr.aria-hidden]="!lightboxOpen()"
+  (click)="onLightboxBackdropClick($event)"
+  (keydown)="onKeydown($event)">
+  <button class="close" aria-label="Close preview" (click)="closeLightbox()">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true">
+      <path d="M18 6L6 18M6 6l12 12"/>
+    </svg>
+  </button>
+  <img [src]="lightboxSrc()" [alt]="lightboxAlt()"/>
+</div>

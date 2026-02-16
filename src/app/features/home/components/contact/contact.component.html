@@ -1,0 +1,106 @@
+<section id="contact" class="container" aria-labelledby="contact-title">
+  <app-section-header
+    tag="Get in Touch"
+    title="Let's"
+    titleHighlight="Connect"
+    subtitle="Have a project in mind? Let's make something unforgettable."
+  />
+
+  <div class="contact-wrap reveal reveal-delay-1">
+    @if (contactService.submitSuccess()) {
+      <div class="success-message">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        <h3>Message Sent!</h3>
+        <p>Thank you for reaching out. I'll get back to you soon.</p>
+        <button class="btn primary" (click)="contactService.resetState()">Send Another</button>
+      </div>
+    } @else {
+      <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="field">
+            <label for="name">Your Name</label>
+            <input
+              id="name"
+              type="text"
+              formControlName="name"
+              placeholder="Jane Doe"
+              autocomplete="name"
+              [class.error]="getFieldError('name')"
+            />
+            @if (getFieldError('name'); as error) {
+              <span class="field-error">{{ error }}</span>
+            }
+          </div>
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              [class.error]="getFieldError('email')"
+            />
+            @if (getFieldError('email'); as error) {
+              <span class="field-error">{{ error }}</span>
+            }
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="subject">Subject</label>
+            <input
+              id="subject"
+              type="text"
+              formControlName="subject"
+              placeholder="Commission / Collaboration"
+              [class.error]="getFieldError('subject')"
+            />
+            @if (getFieldError('subject'); as error) {
+              <span class="field-error">{{ error }}</span>
+            }
+          </div>
+          <div class="field">
+            <label for="budget">Budget (optional)</label>
+            <input
+              id="budget"
+              type="text"
+              formControlName="budget"
+              placeholder="$500 - $1500"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <label for="message">Your Message</label>
+          <textarea
+            id="message"
+            formControlName="message"
+            placeholder="Tell me about your vision..."
+            rows="5"
+            [class.error]="getFieldError('message')"
+          ></textarea>
+          @if (getFieldError('message'); as error) {
+            <span class="field-error">{{ error }}</span>
+          }
+        </div>
+        <div class="form-actions">
+          <button class="btn ghost" type="button" (click)="onReset()">Clear</button>
+          <button class="btn primary" type="submit" [disabled]="contactService.isSubmitting()">
+            @if (contactService.isSubmitting()) {
+              <span>Sending...</span>
+            } @else {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+              <span>Send Message</span>
+            }
+          </button>
+        </div>
+      </form>
+    }
+  </div>
+</section>

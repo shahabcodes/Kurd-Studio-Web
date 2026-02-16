@@ -1,0 +1,16 @@
+<div class="section-header reveal">
+  @if (tag()) {
+    <div class="section-tag">{{ tag() }}</div>
+  }
+  @if (title()) {
+    <h2 class="section-title">
+      {{ title() }}
+      @if (titleHighlight()) {
+        <span>{{ titleHighlight() }}</span>
+      }
+    </h2>
+  }
+  @if (subtitle()) {
+    <p class="section-subtitle">{{ subtitle() }}</p>
+  }
+</div>
