@@ -1,9 +1,8 @@
 <section id="about" class="container" aria-labelledby="about-title">
   <app-section-header
-    tag="About Me"
-    title="Meet"
-    [titleHighlight]="siteService.profile()?.name || 'Sanya'"
-    [subtitle]="siteService.profile()?.tagline || 'Artist · Writer · Dreamer of beautiful things'"
+    [tag]="siteService.section('about')?.tag || 'About Me'"
+    [title]="siteService.section('about')?.title || 'Meet Sanya'"
+    [subtitle]="siteService.section('about')?.subtitle || siteService.profile()?.tagline || 'Artist · Writer · Dreamer of beautiful things'"
   />
 
   <div class="about">

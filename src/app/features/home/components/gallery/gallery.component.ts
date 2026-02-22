@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ArtworkService } from '../../../../core/services/artwork.service';
+import { SiteService } from '../../../../core/services/site.service';
 import { SectionHeaderComponent } from '../../../../shared/components/section-header/section-header.component';
 
 @Component({
@@ -10,6 +11,7 @@ import { SectionHeaderComponent } from '../../../../shared/components/section-he
 })
 export class GalleryComponent implements OnInit {
   readonly artworkService = inject(ArtworkService);
+  readonly siteService = inject(SiteService);
 
   readonly lightboxOpen = signal(false);
   readonly lightboxSrc = signal('');

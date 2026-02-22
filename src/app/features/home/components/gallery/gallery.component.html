@@ -1,9 +1,8 @@
 <section id="gallery" class="container" aria-labelledby="gallery-title">
   <app-section-header
-    tag="Portfolio"
-    title="Creative"
-    titleHighlight="Gallery"
-    subtitle="Sketches · Paintings · Mixed Media"
+    [tag]="siteService.section('gallery')?.tag || 'Portfolio'"
+    [title]="siteService.section('gallery')?.title || 'Creative Gallery'"
+    [subtitle]="siteService.section('gallery')?.subtitle || 'Sketches · Paintings · Mixed Media'"
   />
 
   <div class="tabs reveal reveal-delay-1" role="tablist" aria-label="Filter gallery by category">

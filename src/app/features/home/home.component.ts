@@ -19,7 +19,7 @@ import { ContactComponent } from './components/contact/contact.component';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
-  private readonly siteService = inject(SiteService);
+  readonly siteService = inject(SiteService);
 
   ngOnInit(): void {
     // Load site data on init

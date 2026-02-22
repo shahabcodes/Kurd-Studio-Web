@@ -1,7 +1,15 @@
 <main id="main">
   <app-hero />
-  <app-gallery />
-  <app-writing />
-  <app-about />
-  <app-contact />
+  @if (siteService.section('gallery')?.isActive !== false) {
+    <app-gallery />
+  }
+  @if (siteService.section('writing')?.isActive !== false) {
+    <app-writing />
+  }
+  @if (siteService.section('about')?.isActive !== false) {
+    <app-about />
+  }
+  @if (siteService.section('contact')?.isActive !== false) {
+    <app-contact />
+  }
 </main>

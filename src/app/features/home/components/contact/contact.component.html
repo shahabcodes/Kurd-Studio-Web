@@ -1,9 +1,8 @@
 <section id="contact" class="container" aria-labelledby="contact-title">
   <app-section-header
-    tag="Get in Touch"
-    title="Let's"
-    titleHighlight="Connect"
-    subtitle="Have a project in mind? Let's make something unforgettable."
+    [tag]="siteService.section('contact')?.tag || 'Get in Touch'"
+    [title]="siteService.section('contact')?.title || 'Let\'s Connect'"
+    [subtitle]="siteService.section('contact')?.subtitle || 'Have a project in mind? Let\'s make something unforgettable.'"
   />
 
   <div class="contact-wrap reveal reveal-delay-1">

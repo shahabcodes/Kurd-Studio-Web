@@ -33,6 +33,11 @@ export class SiteService {
   readonly navigation = computed(() => this._siteData()?.navigation ?? []);
   readonly socialLinks = computed(() => this._siteData()?.socialLinks ?? []);
 
+  /** Look up a section by its key (gallery, writing, about, contact) */
+  section(key: string): Section | undefined {
+    return this.sections().find(s => s.sectionKey === key);
+  }
+
   // Cache for API call
   private siteData$: Observable<SiteData> | null = null;
 

@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ContactService } from '../../../../core/services/contact.service';
+import { SiteService } from '../../../../core/services/site.service';
 import { SectionHeaderComponent } from '../../../../shared/components/section-header/section-header.component';
 
 @Component({
@@ -12,6 +13,7 @@ import { SectionHeaderComponent } from '../../../../shared/components/section-he
 export class ContactComponent {
   private readonly fb = inject(FormBuilder);
   readonly contactService = inject(ContactService);
+  readonly siteService = inject(SiteService);
 
   readonly contactForm = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.maxLength(255)]],

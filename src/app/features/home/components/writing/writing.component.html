@@ -1,9 +1,8 @@
 <section id="writing" class="container" aria-labelledby="writing-title">
   <app-section-header
-    tag="Literature"
-    title="Words &"
-    titleHighlight="Stories"
-    subtitle="Reflections · Poems · Novel in Progress"
+    [tag]="siteService.section('writing')?.tag || 'Literature'"
+    [title]="siteService.section('writing')?.title || 'Words & Stories'"
+    [subtitle]="siteService.section('writing')?.subtitle || 'Reflections · Poems · Novel in Progress'"
   />
 
   <div class="tabs reveal reveal-delay-1" role="tablist" aria-label="Filter writing by type">

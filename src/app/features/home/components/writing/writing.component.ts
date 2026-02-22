@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, ElementRef, effect } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { WritingService } from '../../../../core/services/writing.service';
+import { SiteService } from '../../../../core/services/site.service';
 import { SectionHeaderComponent } from '../../../../shared/components/section-header/section-header.component';
 
 @Component({
@@ -12,6 +13,7 @@ import { SectionHeaderComponent } from '../../../../shared/components/section-he
 export class WritingComponent implements OnInit {
   private readonly el = inject(ElementRef);
   readonly writingService = inject(WritingService);
+  readonly siteService = inject(SiteService);
 
   private savedScrollY = 0;
   private pendingScroll = false;
