@@ -16,6 +16,7 @@ export class GalleryComponent implements OnInit {
   readonly lightboxOpen = signal(false);
   readonly lightboxSrc = signal('');
   readonly lightboxAlt = signal('');
+  readonly lightboxDesc = signal('');
 
   ngOnInit(): void {
     this.artworkService.loadArtworks().subscribe();
@@ -26,9 +27,10 @@ export class GalleryComponent implements OnInit {
     this.artworkService.setSelectedType(type === 'all' ? null : type);
   }
 
-  openLightbox(src: string, alt: string): void {
+  openLightbox(src: string, alt: string, desc: string): void {
     this.lightboxSrc.set(src);
     this.lightboxAlt.set(alt || 'Full size preview');
+    this.lightboxDesc.set(desc || '');
     this.lightboxOpen.set(true);
     document.body.style.overflow = 'hidden';
   }

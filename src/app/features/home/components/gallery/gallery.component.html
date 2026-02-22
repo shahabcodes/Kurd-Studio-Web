@@ -33,14 +33,19 @@
         [attr.data-kind]="artwork.typeName"
         role="listitem"
         tabindex="0"
-        (click)="openLightbox(artwork.imageUrl, artwork.title)"
-        (keydown.enter)="openLightbox(artwork.imageUrl, artwork.title)"
-        (keydown.space)="openLightbox(artwork.imageUrl, artwork.title)">
+        (click)="openLightbox(artwork.imageUrl, artwork.title, artwork.description || '')"
+        (keydown.enter)="openLightbox(artwork.imageUrl, artwork.title, artwork.description || '')"
+        (keydown.space)="openLightbox(artwork.imageUrl, artwork.title, artwork.description || '')">
         <img class="thumb" loading="lazy" [src]="artwork.thumbnailUrl" [alt]="artwork.title"/>
         <div class="meta">
           <span class="pill">{{ artwork.typeDisplayName }}</span>
           <span class="title">{{ artwork.title }}</span>
         </div>
+        @if (artwork.description) {
+          <div class="card-desc">
+            <p>{{ artwork.description }}</p>
+          </div>
+        }
       </article>
     } @empty {
       @if (artworkService.isLoading()) {
@@ -72,5 +77,10 @@
       <path d="M18 6L6 18M6 6l12 12"/>
     </svg>
   </button>
-  <img [src]="lightboxSrc()" [alt]="lightboxAlt()"/>
+  <figure class="lightbox-figure">
+    <img [src]="lightboxSrc()" [alt]="lightboxAlt()"/>
+    @if (lightboxDesc()) {
+      <figcaption class="lightbox-caption">{{ lightboxDesc() }}</figcaption>
+    }
+  </figure>
 </div>
