@@ -1497,8 +1497,6 @@ section {
   box-shadow: var(--shadow-sm);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  transform-style: preserve-3d;
-  will-change: transform;
 }
 .card::before {
   content: '';
@@ -1526,7 +1524,7 @@ section {
 .card:hover {
   border-color: var(--accent);
   box-shadow: var(--shadow-lg), var(--shadow-glow);
-  transform: translateY(-8px) scale(1.01);
+  transform: perspective(800px) rotateX(2deg) translateY(-8px) scale(1.02);
 }
 .card:hover .thumb {
   transform: scale(1.08);

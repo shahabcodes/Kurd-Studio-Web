@@ -4,10 +4,7 @@
   <div class="grid-overlay"></div>
 </div>
 
-<!-- Three.js 3D Particles (GPU-capable devices) -->
-@if (use3D()) {
-  <canvas #threeCanvas class="three-canvas"></canvas>
-}
+<!-- Three.js canvas is injected here by JS when GPU is capable -->
 
 <!-- CSS Fallback Particles (weak GPU / mobile) -->
 @if (!use3D()) {
