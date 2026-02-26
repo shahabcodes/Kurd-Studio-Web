@@ -64,9 +64,18 @@ export class BackgroundEffectsComponent implements AfterViewInit, OnDestroy {
       const THREE = await this.threeService.loadThree();
 
       // Create canvas directly in the DOM — avoids Angular @if timing issue
+      // Styles set inline because Angular view encapsulation won't apply to dynamic elements
       const host = this.el.nativeElement;
       const canvas = document.createElement('canvas');
-      canvas.className = 'three-canvas';
+      Object.assign(canvas.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        zIndex: '-1',
+        pointerEvents: 'none'
+      });
       host.insertBefore(canvas, host.firstChild);
 
       this.clock = new THREE.Timer();

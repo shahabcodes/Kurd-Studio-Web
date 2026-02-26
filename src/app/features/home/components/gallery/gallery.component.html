@@ -36,7 +36,8 @@
         (click)="openLightbox(artwork.imageUrl, artwork.title, artwork.description || '')"
         (keydown.enter)="openLightbox(artwork.imageUrl, artwork.title, artwork.description || '')"
         (keydown.space)="openLightbox(artwork.imageUrl, artwork.title, artwork.description || '')">
-        <img class="thumb" loading="lazy" [src]="artwork.thumbnailUrl" [alt]="artwork.title"/>
+        <img class="thumb" loading="lazy" [src]="artwork.thumbnailUrl" [alt]="artwork.title"
+             (error)="$event.target.src !== artwork.imageUrl ? $event.target.src = artwork.imageUrl : null"/>
         <div class="meta">
           <span class="pill">{{ artwork.typeDisplayName }}</span>
           <span class="title">{{ artwork.title }}</span>
