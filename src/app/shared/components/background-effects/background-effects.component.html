@@ -4,11 +4,16 @@
   <div class="grid-overlay"></div>
 </div>
 
-<!-- Floating Particles -->
-<div class="particles" id="particles"></div>
+<!-- Three.js 3D Particles (GPU-capable devices) -->
+@if (use3D()) {
+  <canvas #threeCanvas class="three-canvas"></canvas>
+}
+
+<!-- CSS Fallback Particles (weak GPU / mobile) -->
+@if (!use3D()) {
+  <div class="particles" id="particles"></div>
+  <div class="ink-drops" id="inkDrops"></div>
+}
 
 <!-- Paper Texture Overlay -->
 <div class="paper-texture"></div>
-
-<!-- Ink Drops -->
-<div class="ink-drops" id="inkDrops"></div>

@@ -1217,7 +1217,9 @@ header.scrolled::before {
   background: var(--bg-card);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-lg), var(--shadow-glow);
-  transition: transform 0.5s ease;
+  transition: transform 0.5s ease, box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 .frame::before {
   content: '';
@@ -1495,6 +1497,8 @@ section {
   box-shadow: var(--shadow-sm);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 .card::before {
   content: '';

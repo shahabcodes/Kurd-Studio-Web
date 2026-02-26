@@ -1,1 +1,8 @@
-// Background effect styles are in global styles.scss
+.three-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}

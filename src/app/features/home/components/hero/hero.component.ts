@@ -1,5 +1,6 @@
-import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, signal, OnInit, OnDestroy, ElementRef, NgZone } from '@angular/core';
 import { SiteService } from '../../../../core/services/site.service';
+import { ThreeService } from '../../../../core/services/three.service';
 
 @Component({
   selector: 'app-hero',
@@ -8,6 +9,9 @@ import { SiteService } from '../../../../core/services/site.service';
 })
 export class HeroComponent implements OnInit, OnDestroy {
   readonly siteService = inject(SiteService);
+  private readonly el = inject(ElementRef);
+  private readonly ngZone = inject(NgZone);
+  private readonly threeService = inject(ThreeService);
 
   readonly typewriterText = signal('');
   private phrases = [
@@ -23,14 +27,26 @@ export class HeroComponent implements OnInit, OnDestroy {
   private typeSpeed = 80;
   private timeoutId: ReturnType<typeof setTimeout> | null = null;
 
+  // 3D tilt
+  private frameEl: HTMLElement | null = null;
+  private tiltRAF: number | null = null;
+  private currentRotateX = 0;
+  private currentRotateY = 0;
+  private targetRotateX = 0;
+  private targetRotateY = 0;
+
   ngOnInit(): void {
     setTimeout(() => this.typeWriter(), 1500);
+    if (this.threeService.canUse3D()) {
+      this.ngZone.runOutsideAngular(() => this.initTilt());
+    }
   }
 
   ngOnDestroy(): void {
-    if (this.timeoutId) {
-      clearTimeout(this.timeoutId);
-    }
+    if (this.timeoutId) clearTimeout(this.timeoutId);
+    if (this.tiltRAF !== null) cancelAnimationFrame(this.tiltRAF);
+    this.frameEl?.removeEventListener('mousemove', this.onFrameMouseMove);
+    this.frameEl?.removeEventListener('mouseleave', this.onFrameMouseLeave);
   }
 
   private typeWriter(): void {
@@ -57,4 +73,47 @@ export class HeroComponent implements OnInit, OnDestroy {
 
     this.timeoutId = setTimeout(() => this.typeWriter(), this.typeSpeed);
   }
+
+  // ===== 3D Tilt =====
+  private initTilt(): void {
+    // Wait for DOM
+    setTimeout(() => {
+      this.frameEl = this.el.nativeElement.querySelector('.frame');
+      if (!this.frameEl) return;
+
+      this.frameEl.style.transition = 'none';
+      this.frameEl.addEventListener('mousemove', this.onFrameMouseMove);
+      this.frameEl.addEventListener('mouseleave', this.onFrameMouseLeave);
+      this.animateTilt();
+    }, 100);
+  }
+
+  private onFrameMouseMove = (e: MouseEvent): void => {
+    const el = this.frameEl!;
+    const rect = el.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+
+    // Map 0-1 to tilt range (-8 to 8 degrees)
+    this.targetRotateY = (x - 0.5) * 16;
+    this.targetRotateX = -(y - 0.5) * 12;
+  };
+
+  private onFrameMouseLeave = (): void => {
+    this.targetRotateX = 0;
+    this.targetRotateY = 0;
+  };
+
+  private animateTilt = (): void => {
+    this.tiltRAF = requestAnimationFrame(this.animateTilt);
+
+    // Smooth easing
+    this.currentRotateX += (this.targetRotateX - this.currentRotateX) * 0.08;
+    this.currentRotateY += (this.targetRotateY - this.currentRotateY) * 0.08;
+
+    if (this.frameEl) {
+      this.frameEl.style.transform =
+        `perspective(800px) rotateX(${this.currentRotateX}deg) rotateY(${this.currentRotateY}deg)`;
+    }
+  };
 }
