@@ -69,7 +69,7 @@ export class BackgroundEffectsComponent implements AfterViewInit, OnDestroy {
       canvas.className = 'three-canvas';
       host.insertBefore(canvas, host.firstChild);
 
-      this.clock = new THREE.Clock();
+      this.clock = new THREE.Timer();
 
       this.renderer = new THREE.WebGLRenderer({
         canvas,
@@ -279,7 +279,8 @@ export class BackgroundEffectsComponent implements AfterViewInit, OnDestroy {
 
   private animate = (): void => {
     this.animationId = requestAnimationFrame(this.animate);
-    const elapsed = this.clock.getElapsedTime();
+    this.clock.update();
+    const elapsed = this.clock.getElapsed();
 
     if (this.particles) {
       const mat = this.particles.material;
