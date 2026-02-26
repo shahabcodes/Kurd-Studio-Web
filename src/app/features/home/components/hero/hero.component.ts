@@ -102,6 +102,7 @@ export class HeroComponent implements OnInit, OnDestroy {
   private onFrameMouseLeave = (): void => {
     this.targetRotateX = 0;
     this.targetRotateY = 0;
+    // Reset shadow when mouse leaves (will animate to 0 via the tilt loop)
   };
 
   private animateTilt = (): void => {
@@ -114,6 +115,15 @@ export class HeroComponent implements OnInit, OnDestroy {
     if (this.frameEl) {
       this.frameEl.style.transform =
         `perspective(800px) rotateX(${this.currentRotateX}deg) rotateY(${this.currentRotateY}deg)`;
+
+      // Dynamic shadow that shifts with tilt — creates a "light source follows cursor" effect
+      const tiltMag = Math.sqrt(this.currentRotateX ** 2 + this.currentRotateY ** 2);
+      const shadowX = -this.currentRotateY * 1.5;
+      const shadowY = this.currentRotateX * 1.5;
+      const glowIntensity = Math.min(tiltMag / 8, 1);
+      this.frameEl.style.boxShadow =
+        `${shadowX}px ${shadowY}px ${12 + tiltMag * 2}px rgba(0,0,0,0.2), ` +
+        `0 0 ${20 + tiltMag * 4}px rgba(192, 132, 252, ${0.1 + glowIntensity * 0.25})`;
     }
   };
 }

@@ -1232,7 +1232,10 @@ header.scrolled::before {
   z-index: -1;
 }
 .frame:hover::before { opacity: 0.6; }
-.frame:hover { transform: perspective(1000px) rotateY(-2deg) rotateX(1deg); }
+.frame:hover {
+  transform: perspective(1000px) rotateY(-2deg) rotateX(1deg);
+  box-shadow: var(--shadow-lg), var(--shadow-glow), 0 0 30px rgba(192, 132, 252, 0.2);
+}
 
 .poster {
   aspect-ratio: 4/5;
@@ -1507,6 +1510,17 @@ section {
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.06) 45%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0.06) 55%, transparent 60%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.card:hover::after { opacity: 1; }
 .card:hover::before {
   background: linear-gradient(180deg, transparent 15%, rgba(0, 0, 0, 0.92));
 }
@@ -1523,8 +1537,8 @@ section {
 }
 .card:hover {
   border-color: var(--accent);
-  box-shadow: var(--shadow-lg), var(--shadow-glow);
-  transform: perspective(800px) rotateX(2deg) translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-lg), var(--shadow-glow), 0 0 30px rgba(192, 132, 252, 0.15);
+  transform: translateY(-10px) scale(1.03);
 }
 .card:hover .thumb {
   transform: scale(1.08);
